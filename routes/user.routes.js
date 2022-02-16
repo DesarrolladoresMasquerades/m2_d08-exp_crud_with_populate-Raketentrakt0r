@@ -1,5 +1,6 @@
 const router = require("express").Router();
 
+const { populate } = require("../models/User.model");
 const User = require("../models/User.model");
 
 // ****************************************************************************************
@@ -42,6 +43,11 @@ router.get("/users", (req, res) => {
 // GET details of a specific user (primarily their posts)
 // ****************************************************************************************
 
-// ... your code here
+router.get("/users/:id", (req,res) =>{
+  User.findById(req.params.id)
+  populate("posts")
+  .then(user => res.render("users/details",user))
+  .catch(console.log);
+})
 
 module.exports = router;
